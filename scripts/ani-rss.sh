@@ -121,7 +121,7 @@ cmd_login() {
   local result
   result=$(curl -s -S -X POST -H "Content-Type: application/json" \
     -d "{\"username\":\"${username}\",\"password\":\"${md5_pass}\"}" \
-    "${base_url}/login")
+    "${base_url}/api/login")
 
   local new_token
   new_token=$(echo "$result" | python3 -c "import sys,json;print(json.load(sys.stdin).get('data',''))" 2>/dev/null || true)
@@ -136,117 +136,117 @@ cmd_login() {
   fi
 }
 
-cmd_ping()       { api "/ping" GET; }
-cmd_list()       { api "/listAni" POST "{}"; }
-cmd_about()      { api "/about" POST "{}"; }
-cmd_logs()       { api "/logs" POST "{}"; }
-cmd_clear_logs() { api "/clearLogs" POST "{}"; }
-cmd_clear_cache(){ api "/clearCache" POST "{}"; }
-cmd_me_bgm()     { api "/meBgm" POST "{}"; }
-cmd_config_get() { api "/config" POST "{}"; }
+cmd_ping()       { api "/api/ping" GET; }
+cmd_list()       { api "/api/listAni" POST "{}"; }
+cmd_about()      { api "/api/about" POST "{}"; }
+cmd_logs()       { api "/api/logs" POST "{}"; }
+cmd_clear_logs() { api "/api/clearLogs" POST "{}"; }
+cmd_clear_cache(){ api "/api/clearCache" POST "{}"; }
+cmd_me_bgm()     { api "/api/meBgm" POST "{}"; }
+cmd_config_get() { api "/api/config" POST "{}"; }
 
 cmd_config_set_server() {
   [[ -z "${1:-}" ]] && { echo '{"error":"JSON body required"}' >&2; return 1; }
-  api "/setConfig" POST "$1"
+  api "/api/setConfig" POST "$1"
 }
 
 cmd_add() {
   [[ -z "${1:-}" ]] && { echo '{"error":"JSON body required"}' >&2; return 1; }
-  api "/addAni" POST "$1"
+  api "/api/addAni" POST "$1"
 }
 
 cmd_set() {
   [[ -z "${1:-}" ]] && { echo '{"error":"JSON body required"}' >&2; return 1; }
-  api "/setAni" POST "$1"
+  api "/api/setAni" POST "$1"
 }
 
 cmd_delete() {
-  api "/deleteAni" POST "${1}" "deleteFiles=${2:-false}"
+  api "/api/deleteAni" POST "${1}" "deleteFiles=${2:-false}"
 }
 
 cmd_refresh() {
   if [[ -n "${1:-}" ]]; then
-    api "/refreshAni" POST "{\"id\":\"$1\"}"
+    api "/api/refreshAni" POST "{\"id\":\"$1\"}"
   else
-    api "/refreshAll" POST "{}"
+    api "/api/refreshAll" POST "{}"
   fi
 }
 
 cmd_preview() {
   [[ -z "${1:-}" ]] && { echo '{"error":"JSON body required"}' >&2; return 1; }
-  api "/previewAni" POST "$1"
+  api "/api/previewAni" POST "$1"
 }
 
 cmd_download_path() {
   [[ -z "${1:-}" ]] && { echo '{"error":"JSON body required"}' >&2; return 1; }
-  api "/downloadPath" POST "$1"
+  api "/api/downloadPath" POST "$1"
 }
 
-cmd_enable()  { api "/batchEnable" POST "$1" "value=true"; }
-cmd_disable() { api "/batchEnable" POST "$1" "value=false"; }
+cmd_enable()  { api "/api/batchEnable" POST "$1" "value=true"; }
+cmd_disable() { api "/api/batchEnable" POST "$1" "value=false"; }
 
 cmd_search_bgm() {
   local encoded
   encoded=$(urlencode "$1")
-  api "/searchBgm" POST "" "name=$encoded"
+  api "/api/searchBgm" POST "" "name=$encoded"
 }
 
-cmd_bgm_to_ani() { api "/getAniBySubjectId" POST "" "id=$1"; }
+cmd_bgm_to_ani() { api "/api/getAniBySubjectId" POST "" "id=$1"; }
 
 cmd_bgm_title() {
   [[ -z "${1:-}" ]] && { echo '{"error":"JSON body required"}' >&2; return 1; }
-  api "/getBgmTitle" POST "$1"
+  api "/api/getBgmTitle" POST "$1"
 }
 
 cmd_mikan() {
   local encoded
   encoded=$(urlencode "$1")
-  api "/mikan" POST "${2:-{}}" "text=$encoded"
+  api "/api/mikan" POST "${2:-{}}" "text=$encoded"
 }
 
 cmd_mikan_group() {
   local encoded
   encoded=$(urlencode "$1")
-  api "/mikanGroup" POST "" "url=$encoded"
+  api "/api/mikanGroup" POST "" "url=$encoded"
 }
 
-cmd_anime_garden()       { api "/animeGardenList" POST "{}" "bgmUrl=${1:-}"; }
-cmd_anime_garden_group() { api "/animeGardenGroup" POST "" "bgmId=$1"; }
-cmd_scrape()             { api "/batchScrape" POST "$1" "force=${2:-false}"; }
-cmd_scrape_one()         { api "/scrape" POST "$1" "force=${2:-false}"; }
-cmd_update_episodes()    { api "/updateTotalEpisodeNumber" POST "$1" "force=${2:-false}"; }
+cmd_anime_garden()       { api "/api/animeGardenList" POST "{}" "bgmUrl=${1:-}"; }
+cmd_anime_garden_group() { api "/api/animeGardenGroup" POST "" "bgmId=$1"; }
+cmd_scrape()             { api "/api/batchScrape" POST "$1" "force=${2:-false}"; }
+cmd_scrape_one()         { api "/api/scrape" POST "$1" "force=${2:-false}"; }
+cmd_update_episodes()    { api "/api/updateTotalEpisodeNumber" POST "$1" "force=${2:-false}"; }
 
 cmd_import() {
   [[ -z "${1:-}" ]] && { echo '{"error":"JSON body required"}' >&2; return 1; }
-  api "/importAni" POST "$1"
+  api "/api/importAni" POST "$1"
 }
 
 cmd_test_notification() {
   [[ -z "${1:-}" ]] && { echo '{"error":"JSON body required"}' >&2; return 1; }
-  api "/testNotification" POST "$1"
+  api "/api/testNotification" POST "$1"
 }
 
 cmd_collection_preview() {
   [[ -z "${1:-}" ]] && { echo '{"error":"JSON body required"}' >&2; return 1; }
-  api "/previewCollection" POST "$1"
+  api "/api/previewCollection" POST "$1"
 }
 
 cmd_collection_start() {
   [[ -z "${1:-}" ]] && { echo '{"error":"JSON body required"}' >&2; return 1; }
-  api "/startCollection" POST "$1"
+  api "/api/startCollection" POST "$1"
 }
 
 cmd_rate() {
   [[ -z "${1:-}" ]] && { echo '{"error":"JSON body required"}' >&2; return 1; }
-  api "/rate" POST "$1"
+  api "/api/rate" POST "$1"
 }
 
 cmd_set_rate() {
   [[ -z "${1:-}" ]] && { echo '{"error":"JSON body required"}' >&2; return 1; }
-  api "/setRate" POST "$1"
+  api "/api/setRate" POST "$1"
 }
 
-cmd_about_update() { api "/update" POST "{}"; }
+cmd_about_update() { api "/api/update" POST "{}"; }
 
 cmd_raw() {
   api "$1" "${2:-POST}" "${3:-}" "${4:-}"

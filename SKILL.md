@@ -8,10 +8,10 @@ First configure the server URL and auth:
 
 ```bash
 # API key auth (recommended)
-bash scripts/ani-rss.sh config set --url http://localhost:12444 --api-key <api-key>
+bash scripts/ani-rss.sh config set --url http://your-host:7789 --api-key <api-key>
 
 # Or JWT auth (login with credentials)
-bash scripts/ani-rss.sh config set --url http://localhost:12444
+bash scripts/ani-rss.sh config set --url http://your-host:7789
 bash scripts/ani-rss.sh login --username admin --password admin
 ```
 
