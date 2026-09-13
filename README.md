@@ -4,6 +4,8 @@ Codex / Claude Code / OpenCode / Cursor 通用 skill，通过 [ani-rss](https://
 
 支持 75+ 种 AI 编程工具，由 [vercel-labs/skills](https://github.com/vercel-labs/skills) 驱动安装。
 
+<a href="https://buymeacoffee.com/mizukawu" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="48"></a>
+
 ## 安装
 
 ### 方式一：npx skills（推荐）
@@ -129,6 +131,14 @@ ani-rss-skill/
 ├── scripts/ani-rss.sh    # API 调用脚本
 └── README.md
 ```
+
+## Support
+
+如果这个 skill 对你有帮助，可以请我喝杯咖啡 ☕
+
+<a href="https://buymeacoffee.com/mizukawu" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="48"></a>
+
+[buymeacoffee.com/mizukawu](https://buymeacoffee.com/mizukawu)
 
 ## License
 
