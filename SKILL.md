@@ -1,6 +1,6 @@
 ---
 name: ani-rss
-description: "Manage anime RSS subscriptions via ani-rss. Use when the user wants to list, add, delete, search, or manage anime subscriptions, or interact with an ani-rss server."
+description: "Manage anime RSS subscriptions via ani-rss. Use when the user wants to list, add, delete, search, or manage anime subscriptions, or interact with an ani-rss server. Works with Codex, Claude Code, OpenCode, Cursor, and 75+ agents."
 ---
 
 # Ani RSS
@@ -21,6 +21,8 @@ bash scripts/ani-rss.sh login --username admin --password <password>
 ```
 
 Config saved to `~/.config/ani-rss/config.json`. Override with `ANI_RSS_URL` / `ANI_RSS_API_KEY` env vars.
+
+Default port: **7789** (Docker default). API Key is in the web UI → Settings → API Key.
 
 ## Script
 
