@@ -1,25 +1,30 @@
-# ani-rss
+---
+name: ani-rss
+description: "Manage anime RSS subscriptions via ani-rss. Use when the user wants to list, add, delete, search, or manage anime subscriptions, or interact with an ani-rss server."
+---
 
-Manage anime RSS subscriptions via [ani-rss](https://github.com/wushuo894/ani-rss). Use when the user wants to list, add, delete, search, or manage anime subscriptions, or interact with the ani-rss server.
+# Ani RSS
+
+Manage anime subscriptions via [ani-rss](https://github.com/wushuo894/ani-rss) API.
 
 ## Setup
 
-First configure the server URL and auth:
+Configure the server URL and auth:
 
 ```bash
-# API key auth (recommended)
-bash scripts/ani-rss.sh config set --url http://your-host:7789 --api-key <api-key>
+# API key (recommended)
+bash scripts/ani-rss.sh config set --url http://your-host:7789 --api-key <key>
 
-# Or JWT auth (login with credentials)
+# Or JWT login
 bash scripts/ani-rss.sh config set --url http://your-host:7789
-bash scripts/ani-rss.sh login --username admin --password admin
+bash scripts/ani-rss.sh login --username admin --password <password>
 ```
 
-Config stored at `~/.config/ani-rss/config.json`. Override with `ANI_RSS_URL` / `ANI_RSS_API_KEY` env vars.
+Config saved to `~/.config/ani-rss/config.json`. Override with `ANI_RSS_URL` / `ANI_RSS_API_KEY` env vars.
 
 ## Script
 
-All interactions go through `scripts/ani-rss.sh` (relative to this skill directory). All output is JSON. Errors to stderr, non-zero exit on failure.
+All interactions go through `scripts/ani-rss.sh` (relative to this skill directory). Output is JSON. Errors to stderr, non-zero exit on failure.
 
 ## Workflow
 
@@ -35,13 +40,13 @@ bash scripts/ani-rss.sh mikan-group "https://mikanani.me/Bangumi/xxx"
 
 ### Add subscription
 
-1. Search: `bash scripts/ani-rss.sh search-bgm "<name>"`
+1. Search BGM: `bash scripts/ani-rss.sh search-bgm "<name>"`
 2. Get Ani object: `bash scripts/ani-rss.sh bgm-to-ani <subject-id>`
 3. Modify as needed, then add: `bash scripts/ani-rss.sh add '<json>'`
 
 Or from RSS URL:
 ```bash
-bash scripts/ani-rss.sh add '{"url":"https://mikanani.me/RSS/Bangumi?bangumiId=123&subgroupid=456","title":"Example"}'
+bash scripts/ani-rss.sh add '{"url":"https://mikanime.tv/RSS/Bangumi?bangumiId=123&subgroupid=456","title":"Example"}'
 ```
 
 ### Manage
@@ -77,28 +82,29 @@ bash scripts/ani-rss.sh raw /endpoint POST '{"k":"v"}' "param=val"
 | Method | Header | Notes |
 |--------|--------|-------|
 | API Key | `x-api-key` | Recommended, no expiry |
-| JWT | `Authorization` | Login via `/login`, password is MD5 |
+| JWT | `Authorization` | Login via `/api/login`, password is MD5 |
 
 ## API reference
 
+All endpoints prefixed with `/api`. Default port: 7789.
+
 | Endpoint | Description |
 |----------|-------------|
-| `GET /ping` | Health check |
-| `POST /login` | Login (body: `{username, password}`) |
-| `POST /listAni` | List subscriptions |
-| `POST /addAni` | Add subscription |
-| `POST /setAni` | Update subscription |
-| `POST /deleteAni` | Delete (body: ids[], ?deleteFiles) |
-| `POST /refreshAll` | Refresh all RSS |
-| `POST /refreshAni` | Refresh one (body: {id}) |
-| `POST /batchEnable` | Enable/disable (body: ids[], ?value) |
-| `POST /searchBgm?name=` | Search Bangumi |
-| `POST /getAniBySubjectId?id=` | BGM → Ani |
-| `POST /config` | Get server config |
-| `POST /setConfig` | Update config |
-| `POST /scrape` | Scrape metadata |
-| `POST /batchScrape` | Batch scrape (body: ids[]) |
-| `POST /logs` | Get logs |
-| `POST /about` | Version info |
-| `POST /mikan?text=` | Search Mikan |
-| `POST /animeGardenList` | AnimeGarden list |
+| `GET /api/ping` | Health check |
+| `POST /api/login` | Login (body: `{username, password}`) |
+| `POST /api/listAni` | List subscriptions |
+| `POST /api/addAni` | Add subscription |
+| `POST /api/setAni` | Update subscription |
+| `POST /api/deleteAni` | Delete (body: ids[], ?deleteFiles) |
+| `POST /api/refreshAll` | Refresh all RSS |
+| `POST /api/refreshAni` | Refresh one (body: {id}) |
+| `POST /api/batchEnable` | Enable/disable (body: ids[], ?value) |
+| `POST /api/searchBgm?name=` | Search Bangumi |
+| `POST /api/getAniBySubjectId?id=` | BGM → Ani |
+| `POST /api/config` | Get server config |
+| `POST /api/setConfig` | Update config |
+| `POST /api/scrape` | Scrape metadata |
+| `POST /api/logs` | Get logs |
+| `POST /api/about` | Version info |
+| `POST /api/mikan?text=` | Search Mikan |
+| `POST /api/animeGardenList` | AnimeGarden list |
